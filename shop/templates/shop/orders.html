@@ -1,0 +1,46 @@
+{% extends 'shop/basic.html' %}
+
+<!--title -->
+{% block title %}Orders{% endblock %}
+
+<!-- cartItemCount  -->
+{%block cartItemCount%}{{cartItemCount}}{%endblock%}
+
+<!--body -->
+
+{% block body %}
+<div class="container my-5">
+  <div style="width: 42.3em" class="card">
+    <div class="card-header">You Orders</div>
+    <div class="card-body">
+      {% if orders|length <= 0 %}
+
+      <h4>No orders placed yet !</h4>
+
+      {% else %} {% for order in orders %}
+
+      <div class="card mb-3" style="width: 40rem">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <h5 class="card-title">{{order.id}}</h5>
+            </div>
+            <div class="col-md-3">
+              <h5 class="card-title">{{order.orderedDate}}</h5>
+            </div>
+            <div class="col-md-3">
+              <h5 class="card-title">₹{{order.totalAmount}}</h5>
+            </div>
+            <div class="col-md-3">
+              <h5 class="text-success">{{order.status}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %} {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

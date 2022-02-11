@@ -1,0 +1,183 @@
+<!-- extending  -->
+{%extends "shop/basic.html"%}
+
+<!-- title  -->
+
+{%block title%}India's largest onilne shop{%endblock%}
+
+<!-- cartItemCount  -->
+{%block cartItemCount%}{{cartItemCount}}{%endblock%}
+
+<!-- body  -->
+
+{%block body%} {% load static %} {% block slick %}
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+  integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+  integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+{% endblock %}
+
+<div
+  id="banner"
+  class="carousel slide"
+  data-bs-ride="carousel"
+  style="height: 350px"
+>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img
+        src="{% static 'shop/images/c1.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+        style="height: 350px; object-fit: cover"
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        src="{% static 'shop/images/c2.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+        style="height: 350px; object-fit: cover"
+      />
+    </div>
+    <div class="carousel-item">
+      <img
+        src="{% static 'shop/images/c3.jpg' %}"
+        class="d-block w-100"
+        alt="..."
+        style="height: 350px; object-fit: cover"
+      />
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#banner"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#banner"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="container my-5">
+  {% for category in categories %}
+  <h5 class="mt-5">Latest Recommended {{category.name}} By ShopCart</h5>
+  <div class="row mt-4 slider">
+    {%for product in category.products%}
+    <div class="col-md-12">
+      <div class="card mx-4 border-0 text-center text-dark">
+        <a class="text-dark" href="product/{{product.id}}">
+          <img
+            class="img-fluid rounded-3 mb-4"
+            src="http://localhost:8000/media/{{product.image}}"
+            alt=""
+          />
+
+          <h5 class="card-title">
+            {{product.name|slice:"20"}} {% if product.name|length > 20 %}...
+            {%endif %}
+          </h5>
+
+          <h5 class="text-success">₹{{product.price}}</h5>
+        </a>
+      </div>
+    </div>
+    {% endfor %} {%for product in products%}
+    <div class="col-md-12">
+      <div class="card me-3 border-0 text-center text-dark">
+        <a class="text-dark" href="product/{{product.id}}">
+          <img
+            class="img-fluid rounded-3 mb-4"
+            src="http://localhost:8000/media/{{product.image}}"
+            alt=""
+          />
+
+          <h5 class="card-title">
+            {{product.name|slice:"20"}} {% if product.name|length > 20 %}...
+            {%endif %}
+          </h5>
+
+          <h5 class="text-success">₹{{product.price}}</h5>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+  integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"
+  integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+
+<script>
+  $(".slider").slick({
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      // You can unslick at a given breakpoint now by adding:
+      // settings: "unslick"
+      // instead of a settings object
+    ],
+  });
+</script>
+
+{%endblock%}

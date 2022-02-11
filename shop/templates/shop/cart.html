@@ -1,0 +1,197 @@
+{% extends 'shop/basic.html' %} {% block title %}Cart{% endblock title %}
+
+<!-- cartItemCount  -->
+{%block cartItemCount%}{{cartItemCount}}{%endblock%} {%block body %}
+
+<div class="container my-5">
+  {% if show %}
+  <div class="alert alert-success alert-dismissible show fade" role="alert">
+    <strong>Thanks for ordering</strong> your order has been placed successfully
+    for more info go to orders page
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Cart</div>
+        <div class="card-body">
+          {% if cart|length <= 0 %}
+
+          <h4>Cart is Empty !</h4>
+
+          {% else %} {% for item in cart %}
+
+          <div class="card mb-3" style="max-height: 100px">
+            <div class="row g-3 align-items-center">
+              <div class="col-md-2">
+                <img
+                  style="width: 100%; max-height: 100px"
+                  src="http://localhost:8000/media/{{item.image}}"
+                  class="img-fluid rounded-start"
+                  alt="..."
+                />
+              </div>
+              <div class="col-md-10">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <h5 class="card-title">{{item.name}}</h5>
+                    </div>
+                    <div class="col-md-3">
+                      <div
+                        style="width: 100px"
+                        class="d-flex justify-content-evenly align-items-center"
+                      >
+                        <a
+                          style="font-size: 24px"
+                          href="/shop/removeFromCart?id={{item.id}}"
+                          ><i class="fas fa-minus-square"></i
+                        ></a>
+                        <h5>{{item.quantity}}</h5>
+                        <a
+                          style="font-size: 24px"
+                          href="/shop/addToCart?name={{item.name}}&&price={{item.price}}&&image={{item.image}}&&id={{item.id}}&&redirect=yes"
+                          ><i class="fas fa-plus-square"></i
+                        ></a>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <h5>₹{{item.price}}</h5>
+                    </div>
+                    <div class="col-md-2">
+                      <button class="btn btn-sm btn-danger">
+                        <a
+                          href="/shop/removeFromCart?id={{item.id}}&&delete=yes"
+                          ><i class="text-light fa fa-trash"></i
+                        ></a>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% endfor %} {% endif %}
+        </div>
+      </div>
+    </div>
+    {% if not cart|length <= 0 %}
+    <div class="col-md-4">
+      <div class="card mb-3">
+        <div class="card-header">Fill Infomation</div>
+        <div class="card-body">
+          <form action="/shop/checkout" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="items" value="{{cart}}" />
+            <input type="hidden" name="totalAmount" value="{{totalAmount}}" />
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                placeholder="Name"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="Email"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                name="address"
+                placeholder="Address"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="tel"
+                class="form-control"
+                id="phone"
+                name="phone"
+                placeholder="Phone"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="state"
+                name="state"
+                placeholder="State"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="city"
+                name="city"
+                placeholder="City"
+              />
+            </div>
+            <div class="mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="zipCode"
+                name="zipCode"
+                placeholder="Zip Code"
+              />
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <p>Total</p>
+                    <h6 class="">₹{{total}}</h6>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <p>Delivery Charge</p>
+                    <h6 class="">₹{{deliveryCharge}}</h6>
+                  </div>
+                </li>
+              </ul>
+              <div class="card-footer mt-2">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h6>Total Amount to Pay</h6>
+                  <h5 class="">₹{{totalAmount}}</h5>
+                </div>
+              </div>
+              <button type="submit" class="btn mt-3 w-100 btn-warning">
+                Place Order
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+  </div>
+</div>
+
+{% endblock body %}

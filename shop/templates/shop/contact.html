@@ -1,0 +1,66 @@
+<!-- extending  -->
+{%extends "shop/basic.html"%}
+
+<!-- title  -->
+{%block title%}Contact us{%endblock%}
+
+<!-- body  -->
+
+{%block body%}
+
+<div class="container my-5">
+  {% if show %}
+  <div class="alert alert-success alert-dismissible show fade" role="alert">
+    <strong>Thanks for contacting us</strong> we will reach you soon
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+
+  {% endif %}
+
+  <h4 class="my-4 text-center">Feel Free To Contact Us</h4>
+  <form style="width: 60%" class="mx-auto" action="/shop/contact" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <input
+        type="text"
+        name="name"
+        class="form-control"
+        placeholder="Enter Your Name"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="email"
+        name="email"
+        class="form-control"
+        placeholder="Enter Your Email"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="tel"
+        name="phone"
+        class="form-control"
+        placeholder="Enter Your Phone Number"
+      />
+    </div>
+
+    <div class="mb-3">
+      <textarea
+        class="form-control"
+        name="message"
+        name="message"
+        placeholder="Write your query here"
+        rows="3"
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-warning w-100">Submit</button>
+  </form>
+</div>
+
+{%endblock%}
